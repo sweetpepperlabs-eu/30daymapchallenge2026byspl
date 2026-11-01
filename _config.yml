@@ -1,0 +1,29 @@
+# Site title, used in the header and browser tab
+title: "30 Day Map Challenge 2026"
+description: "One map a day for the #30DayMapChallenge, November 2026."
+
+# Your GitHub Pages address (username + domain, no repo name)
+url: "https://sweetpepperlabs-eu.github.io"
+
+# The repository name. Must start with "/" and match the repo exactly.
+# For a user site (username.github.io repo), set this to "".
+baseurl: "/30daymapchallenge2026byspl"
+
+# Placeholders: fill these in later
+author: "[YOUR NAME]"
+instagram: "[YOUR INSTAGRAM HANDLE]"
+email: "[YOUR EMAIL]"
+
+# Date shown on the home page. Update it when you publish.
+last_updated: "2026-11-01"
+
+# Day detail pages live in the _days collection (output: true builds them)
+collections:
+  days:
+    output: true
+
+# Files Jekyll should not publish
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

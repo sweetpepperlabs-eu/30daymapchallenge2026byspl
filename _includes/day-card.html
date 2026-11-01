@@ -1,0 +1,9 @@
+<li class="cell">
+  <a class="card" href="{{ site.baseurl }}/days/{{ include.item.day }}-{{ include.item.slug }}/">
+    <span class="num">{{ include.item.day }}</span>
+    <time class="date" datetime="{{ include.item.date }}">{{ include.item.date | date: "%-d %b" }}</time>
+    <h3 class="topic">{{ include.item.name }}</h3>
+    <p class="desc">{{ include.item.description }}</p>
+    <span class="badge badge-{{ include.item.status }}">{{ include.item.status }}</span>
+  </a>
+</li>

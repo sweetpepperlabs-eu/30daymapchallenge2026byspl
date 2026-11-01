@@ -1,0 +1,23 @@
+---
+layout: home
+title: Home
+---
+<section class="intro halftone">
+  <p class="eyebrow">#30DayMapChallenge · November 2026</p>
+  <h1 class="glitch hero" data-text="{{ site.title }}">{{ site.title }}</h1>
+  <p class="lede">One map a day for thirty days. <span class="script">Start anywhere, make it yours.</span></p>
+  <p class="updated">Last updated: {{ site.last_updated | date: "%-d %B %Y" }}</p>
+</section>
+
+<section class="calendar" aria-labelledby="cal-title">
+  <h2 id="cal-title" class="sr-only">Challenge calendar, November 2026</h2>
+  <div class="weekdays" aria-hidden="true">
+    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+  </div>
+  <ol class="grid" aria-label="Days 1 to 30, November 2026">
+    {% for i in (1..6) %}<li class="pad" aria-hidden="true"></li>{% endfor %}
+    {% for item in site.data.challenge %}
+      {% include day-card.html item=item %}
+    {% endfor %}
+  </ol>
+</section>

@@ -1,0 +1,29 @@
+---
+layout: default
+---
+{% assign item = site.data.challenge | where: "day", page.day | first %}
+<article class="page day">
+  <p><a class="btn" href="{{ site.baseurl }}/">&larr; Back to calendar</a></p>
+  <p class="eyebrow">Day {{ item.day }} · {{ item.date | date: "%-d %B %Y" }}</p>
+  <h1 class="glitch" data-text="{{ item.name }}">{{ item.name }}</h1>
+  <span class="badge badge-{{ item.status }}">{{ item.status }}</span>
+
+  <figure class="map-frame">
+    {% if item.status == "published" %}
+      <img src="{{ site.baseurl }}/assets/maps/{{ item.day }}-{{ item.slug }}.png"
+           alt="Map for day {{ item.day }}: {{ item.name }}. [Describe the map here.]"
+           loading="lazy" width="1200" height="1200">
+    {% else %}
+      <div class="coming-soon">
+        <p class="pixel">MAP COMING SOON</p>
+        <p>Day {{ item.day }}: {{ item.name }}</p>
+      </div>
+    {% endif %}
+  </figure>
+
+  <h2>The prompt</h2>
+  <p>{{ item.description }}</p>
+
+  <h2>Notes</h2>
+  <p>{{ item.notes | default: "No notes yet." }}</p>
+</article>

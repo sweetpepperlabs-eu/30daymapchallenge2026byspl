@@ -1,0 +1,289 @@
+/* ==========================================================================
+   1. TOKENS
+   ========================================================================== */
+:root {
+  --paper: #f6efe0;
+  --paper-light: #fbf7ee;
+  --pink: #f2c6cc;
+  --mint: #bfe6d4;
+  --lavender: #d6cdf0;
+  --mustard: #e8c15a;
+  --ink: #2a2430;
+  --ink-soft: #5a5160;
+  --accent: #c2446b;
+  --shadow: 4px 4px 0 var(--ink);
+  --font-pixel: "Press Start 2P", monospace;
+  --font-display: "Archivo Black", "Arial Black", sans-serif;
+  --font-body: "Space Grotesk", system-ui, sans-serif;
+  --font-script: "Permanent Marker", cursive;
+}
+
+/* ==========================================================================
+   2. BASE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--ink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0 0 .5rem; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
+h2 { font-size: 1.3rem; margin-top: 1.5rem; }
+h3 { font-size: 1rem; }
+p { margin: 0 0 1rem; }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: 1rem; top: -3rem; background: var(--mustard);
+  padding: .5rem 1rem; z-index: 200; border: 2px solid var(--ink);
+}
+.skip-link:focus { top: 1rem; }
+
+/* ==========================================================================
+   3. LAYOUT
+   ========================================================================== */
+.site-header {
+  position: relative;
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  padding: 1rem 16px;
+  background: var(--lavender);
+  border-bottom: 3px solid var(--ink);
+  overflow: hidden;
+}
+/* Scanline effect on the header only */
+.site-header::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(42,36,48,.06) 2px 3px);
+}
+
+.brand { text-decoration: none; font-family: var(--font-pixel); font-size: .75rem; }
+.nav { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .6rem; }
+
+main { padding: 0 16px 4rem; max-width: 1200px; margin: 0 auto; }
+
+.intro {
+  padding: 2.5rem 0 2rem;
+  position: relative;
+}
+/* Halftone dot pattern on one section only */
+.halftone::before {
+  content: ""; position: absolute; inset: 0 -16px; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(var(--ink) 1px, transparent 1.5px);
+  background-size: 8px 8px; opacity: .12;
+}
+.intro { isolation: isolate; }
+
+.calendar { margin-top: 1.5rem; }
+
+.page { max-width: 680px; padding-top: 2rem; }
+.page p { font-size: 1.05rem; }
+
+/* Calendar grid */
+.weekdays, .grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: .75rem;
+}
+.weekdays {
+  font-family: var(--font-pixel); font-size: .6rem; text-transform: uppercase;
+  margin-bottom: .5rem; text-align: center; color: var(--ink-soft);
+}
+.grid { list-style: none; margin: 0; padding: 0; }
+.pad { display: none; }
+
+/* Only the first six days need padding for a Monday-first week starting on Sunday */
+.grid > .pad:nth-child(-n+6) { display: block; }
+
+/* ==========================================================================
+   4. COMPONENTS
+   ========================================================================== */
+
+/* Skeuomorphic buttons: beveled, with a visible pressed state */
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .5rem .85rem;
+  background: var(--paper-light);
+  border: 2px solid var(--ink);
+  border-color: #fff var(--ink-soft) var(--ink-soft) #fff;
+  box-shadow: inset -2px -2px 0 rgba(42,36,48,.25), 2px 2px 0 var(--ink);
+  font-family: var(--font-body); font-weight: 700; font-size: .95rem;
+  text-decoration: none; cursor: pointer;
+}
+.btn:hover { background: #fff; }
+.btn:active {
+  border-color: var(--ink-soft) #fff #fff var(--ink-soft);
+  box-shadow: inset 2px 2px 0 rgba(42,36,48,.25);
+  transform: translate(1px, 1px);
+}
+
+/* Pixel icons (8x8 inline SVG) */
+.px { width: 16px; height: 16px; fill: currentColor; shape-rendering: crispEdges; flex: none; }
+.px .hole { fill: var(--paper-light); }
+
+/* Calendar cell */
+.cell { position: relative; }
+.card {
+  display: flex; flex-direction: column; gap: .35rem; height: 100%;
+  min-height: 170px; padding: .75rem;
+  background: var(--paper-light);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+}
+.card:hover { background: #fff; }
+.cell:nth-child(4n+1) .card { background: var(--pink); }
+.cell:nth-child(4n+2) .card { background: var(--mint); }
+.cell:nth-child(4n+3) .card { background: var(--paper-light); }
+.cell:nth-child(4n+4) .card { background: var(--lavender); }
+
+.num {
+  font-family: var(--font-pixel); font-size: 1.35rem; line-height: 1;
+  color: var(--ink);
+}
+.date { font-size: .8rem; color: var(--ink-soft); }
+.topic { font-size: .95rem; margin: 0; }
+.desc {
+  font-size: .85rem; margin: 0; color: var(--ink);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card .badge { margin-top: auto; align-self: flex-start; }
+
+/* Tape strip on some cells */
+.cell:nth-child(3n)::before {
+  content: ""; position: absolute; top: -9px; left: 50%; width: 56px; height: 16px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: rgba(232,193,90,.75);
+  border: 1px dashed rgba(42,36,48,.25);
+  z-index: 2; pointer-events: none;
+}
+
+/* Status badges with pixel icons */
+.badge {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-family: var(--font-pixel); font-size: .5rem; text-transform: uppercase;
+  padding: .3rem .45rem; border: 2px solid var(--ink);
+  background: var(--lavender); color: var(--ink);
+}
+.badge-published { background: var(--mint); }
+.badge-planned { background: var(--mustard); }
+
+/* Day page */
+.eyebrow { font-family: var(--font-pixel); font-size: .6rem; color: var(--ink-soft); text-transform: uppercase; }
+.lede { font-size: 1.15rem; max-width: 36ch; }
+.updated { font-size: .85rem; color: var(--ink-soft); }
+.hero { font-size: clamp(2rem, 6vw, 3.6rem); max-width: 16ch; }
+.script { font-family: var(--font-script); color: var(--accent); font-size: 1.2em; }
+
+.map-frame {
+  margin: 1.5rem 0; padding: 12px;
+  background: var(--paper-light);
+  border: 3px solid var(--ink);
+  box-shadow: var(--shadow);
+}
+.coming-soon {
+  aspect-ratio: 1 / 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 1rem;
+  background-color: var(--mint);
+  background-image: radial-gradient(var(--ink) 1px, transparent 1.5px);
+  background-size: 10px 10px;
+  border: 2px dashed var(--ink);
+}
+.coming-soon .pixel { font-family: var(--font-pixel); font-size: .75rem; background: var(--paper-light); padding: .5rem; border: 2px solid var(--ink); }
+
+/* Glitch effect on titles (hover only; a timer-based variant can be added later) */
+.glitch { position: relative; display: inline-block; }
+.glitch:hover::before,
+.glitch:hover::after {
+  content: attr(data-text);
+  position: absolute; left: 0; top: 0; width: 100%;
+  pointer-events: none;
+}
+.glitch:hover::before {
+  color: #3fb6c9; transform: translate(-3px, 0);
+  clip-path: inset(10% 0 60% 0);
+  animation: glitch-a .5s steps(2) 1;
+}
+.glitch:hover::after {
+  color: var(--accent); transform: translate(3px, 0);
+  clip-path: inset(55% 0 5% 0);
+  animation: glitch-b .5s steps(2) 1;
+}
+
+/* Grain overlay: inline SVG feTurbulence, very low opacity */
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 100;
+  opacity: .07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ==========================================================================
+   5. EFFECTS (keyframes)
+   ========================================================================== */
+@keyframes glitch-a {
+  0% { transform: translate(-3px, 0); }
+  50% { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes glitch-b {
+  0% { transform: translate(3px, 0); }
+  50% { transform: translate(-2px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ==========================================================================
+   6. RESPONSIVE
+   ========================================================================== */
+/* Tablet: 4 columns */
+@media (max-width: 1000px) {
+  .weekdays, .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .grid > .pad:nth-child(-n+6) { display: none; }
+  .weekdays { display: none; }
+}
+
+/* Mobile: single column, weekday header hidden, date shown inside each cell */
+@media (max-width: 600px) {
+  main { padding: 0 16px 3rem; }
+  .weekdays { display: none; }
+  .grid { grid-template-columns: 1fr; }
+  .card { min-height: 0; }
+  .cell:nth-child(3n)::before { display: none; }
+  .cell .card { transform: none !important; }
+  .date { display: block; }
+}
+
+/* Light rotation for the collage feel (desktop/tablet only) */
+@media (min-width: 601px) {
+  .cell:nth-child(4n+1) { transform: rotate(-1deg); }
+  .cell:nth-child(4n+2) { transform: rotate(.8deg); }
+  .cell:nth-child(4n+4) { transform: rotate(-.6deg); }
+}
+
+/* ==========================================================================
+   7. REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .glitch:hover::before, .glitch:hover::after { content: none; }
+  .cell { transform: none !important; }
+}
